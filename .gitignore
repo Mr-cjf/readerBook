@@ -40,3 +40,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/.intellijPlatform/localPlatformArtifacts/localIde-IU-243.21565.193+137.xml
+/.intellijPlatform/self-update.lock
