@@ -1,8 +1,8 @@
 package cn.cuijiangfeng.readerbook.service;
 
 import cn.cuijiangfeng.readerbook.persistentState.ReaderBookSettings;
-import cn.cuijiangfeng.readerbook.settings.ReaderBookConfigurable;
 import cn.cuijiangfeng.readerbook.tool.Nones;
+import cn.cuijiangfeng.readerbook.ui.settings.ReaderBookConfigurable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.options.ShowSettingsUtil;

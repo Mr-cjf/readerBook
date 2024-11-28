@@ -1,6 +1,8 @@
-package cn.cuijiangfeng.readerbook;
+package cn.cuijiangfeng.readerbook.ui.tool;
 
+import cn.cuijiangfeng.readerbook.code.error.ErrorCodeEnum;
 import cn.cuijiangfeng.readerbook.service.ReaderBookSettingsService;
+import cn.cuijiangfeng.readerbook.tool.Asserts;
 import cn.cuijiangfeng.readerbook.tool.Nones;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -33,7 +35,7 @@ import java.util.regex.Pattern;
 public class LocalReaderBookAction extends AnAction {
     
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         ReaderBookSettingsService readerBookSettingsService = ApplicationManager.getApplication()
                                                                                 .getService(ReaderBookSettingsService.class);
         
@@ -48,6 +50,7 @@ public class LocalReaderBookAction extends AnAction {
                     Messages.getQuestionIcon()
             );
             if (result == Messages.YES) {
+                Asserts.notNull(e.getProject(), ErrorCodeEnum.PARAMS_INCORRECT);
                 readerBookSettingsService.openSettings(e.getProject());
             }
             return;

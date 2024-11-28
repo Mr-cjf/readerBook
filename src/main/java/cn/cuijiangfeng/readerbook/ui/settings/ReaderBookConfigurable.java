@@ -1,4 +1,4 @@
-package cn.cuijiangfeng.readerbook.settings;
+package cn.cuijiangfeng.readerbook.ui.settings;
 
 import cn.cuijiangfeng.readerbook.persistentState.ReaderBookSettings;
 import cn.cuijiangfeng.readerbook.service.ReaderBookSettingsService;

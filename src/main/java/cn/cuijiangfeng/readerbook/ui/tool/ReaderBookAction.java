@@ -1,4 +1,4 @@
-package cn.cuijiangfeng.readerbook;
+package cn.cuijiangfeng.readerbook.ui.tool;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
