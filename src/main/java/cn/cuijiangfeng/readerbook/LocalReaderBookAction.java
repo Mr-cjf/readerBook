@@ -1,12 +1,18 @@
-package cn.cuijiangfeng.readerbook.readerbook;
+package cn.cuijiangfeng.readerbook;
 
+import cn.cuijiangfeng.readerbook.service.ReaderBookSettingsService;
+import cn.cuijiangfeng.readerbook.tool.Nones;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
 import org.mozilla.universalchardet.UniversalDetector;
 
 import java.io.BufferedReader;
@@ -28,27 +34,31 @@ public class LocalReaderBookAction extends AnAction {
     
     @Override
     public void actionPerformed(AnActionEvent e) {
-        System.out.println("打开二级菜单");
+        ReaderBookSettingsService readerBookSettingsService = ApplicationManager.getApplication()
+                                                                                .getService(ReaderBookSettingsService.class);
+        
+        val bookReadDir = readerBookSettingsService.getBookReadDir();
+        log.info("bookReadDir:{}", bookReadDir);
+        if (Nones.isBlank(bookReadDir)) {
+            // 弹出提示消息并提供一个按钮，点击按钮后打开设置页面
+            int result = Messages.showYesNoDialog(
+                    e.getProject(),
+                    "请先设置小说读取路径\n是否现在设置？",
+                    "提示",
+                    Messages.getQuestionIcon()
+            );
+            if (result == Messages.YES) {
+                readerBookSettingsService.openSettings(e.getProject());
+            }
+            return;
+        }
+        
         // 创建一个文件选择器描述符，允许选择txt、pdf、epub文件
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(
-                true,  // 是否可以选择文件
-                false, // 是否可以选择文件夹
-                false, // 是否可以选择JAR文件
-                false, // 是否将JAR文件作为文件选择
-                false, // 是否可以选择JAR文件内容
-                false  // 是否可以选择多个文件
-        );
-        
-        descriptor.setTitle("选择小说文件");
-        descriptor.setDescription("选择txt、pdf或epub格式的小说文件");
-        descriptor.setHideIgnored(false);
-        descriptor.setShowFileSystemRoots(true);
-        
-        // 设置可选择的文件扩展名
-        descriptor.withExtensionFilter("支持的文件格式", "txt", "pdf", "epub");
-        
+        var descriptor = getFileChooserDescriptor();
+        // 打开文件选择器，指定初始目录为 bookReadDir
+        VirtualFile initialDirectory = LocalFileSystem.getInstance().findFileByPath(bookReadDir);
         // 打开文件选择器
-        VirtualFile[] selectedFiles = FileChooser.chooseFiles(descriptor, e.getProject(), null);
+        VirtualFile[] selectedFiles = FileChooser.chooseFiles(descriptor, e.getProject(), initialDirectory);
         
         // 处理用户选择的文件
         for (VirtualFile file : selectedFiles) {
@@ -68,6 +78,26 @@ public class LocalReaderBookAction extends AnAction {
                 Messages.showMessageDialog(e.getProject(), "未找到章节标题", "提示", Messages.getWarningIcon());
             }
         }
+    }
+    
+    private @NotNull FileChooserDescriptor getFileChooserDescriptor() {
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(
+                true,  // 是否可以选择文件
+                false, // 是否可以选择文件夹
+                false, // 是否可以选择JAR文件
+                false, // 是否将JAR文件作为文件选择
+                false, // 是否可以选择JAR文件内容
+                false  // 是否可以选择多个文件
+        );
+        
+        descriptor.setTitle("选择小说文件");
+        descriptor.setDescription("选择txt、pdf或epub格式的小说文件");
+        descriptor.setHideIgnored(false);
+        descriptor.setShowFileSystemRoots(true);
+        
+        // 设置可选择的文件扩展名
+        descriptor.withExtensionFilter("支持的文件格式", "txt", "pdf", "epub");
+        return descriptor;
     }
     
     private List<String> readChapterTitles(VirtualFile file) {

@@ -1,12 +1,13 @@
 plugins {
     id("org.jetbrains.intellij.platform") version "2.1.0"
 }
+
 group = "cn.cuijiangfeng.readerbook"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-//    gradlePluginPortal()
+    gradlePluginPortal()
     maven {
         url = uri("https://maven.aliyun.com/repository/public")
     }
@@ -31,7 +32,7 @@ dependencies {
     intellijPlatform {
         // intellijIdeaCommunity("2024.2.4")
         // intellijIdeaUltimate("2024.2.4")
-        bundledPlugin("com.intellij.java")
+        bundledPlugins("com.intellij.java", "com.intellij.database")
         local("C:\\Users\\cjf\\AppData\\Local\\Programs\\IntelliJ IDEA Ultimate 3")
         zipSigner()
         instrumentationTools()
@@ -39,22 +40,19 @@ dependencies {
 }
 
 tasks {
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "21"
         targetCompatibility = "21"
-        // 解决编译时中文报错
         options.encoding = "UTF-8"
     }
 
-    // 添加以下内容，解决运行时控制台中文乱码
     withType<JavaExec> {
         jvmArgs = listOf("-Dfile.encoding=UTF-8", "-Dsun.stdout.encoding=UTF-8", "-Dsun.stderr.encoding=UTF-8")
     }
 
     patchPluginXml {
-        sinceBuild.set("242.23726.103") // 修改为当前 IDE 版本
-        untilBuild.set("243.*") // 可以设置一个范围，确保兼容未来的小版本更新
+        sinceBuild.set("242")
+        untilBuild.set("")
     }
 
     signPlugin {

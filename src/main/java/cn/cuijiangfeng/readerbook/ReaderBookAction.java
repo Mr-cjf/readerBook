@@ -1,4 +1,4 @@
-package cn.cuijiangfeng.readerbook.readerbook;
+package cn.cuijiangfeng.readerbook;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -10,7 +10,6 @@ public class ReaderBookAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         System.out.println("打开二级菜单");
-        
     }
     
     

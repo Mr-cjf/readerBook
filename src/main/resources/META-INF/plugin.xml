@@ -28,15 +28,22 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+                serviceImplementation="cn.cuijiangfeng.readerbook.persistentState.ReaderBookSettings"/>
 
+        <applicationService serviceImplementation="cn.cuijiangfeng.readerbook.service.ReaderBookSettingsService"/>
+        <applicationConfigurable id="ReaderBookSetting"
+                                 instance="cn.cuijiangfeng.readerbook.settings.ReaderBookConfigurable"
+                                 displayName="ReaderBookSetting">
+        </applicationConfigurable>
     </extensions>
     <actions>
         <group id="ReaderBookMenu" text="Reader Book 一级菜单" description="Reader Book Actions" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="ReaderBook" class="cn.cuijiangfeng.readerbook.readerbook.ReaderBookAction" text="在线阅读"
+            <action id="ReaderBook" class="cn.cuijiangfeng.readerbook.ReaderBookAction" text="在线阅读"
                     description="打开菜单">
             </action>
-            <action id="LocalReaderBook" class="cn.cuijiangfeng.readerbook.readerbook.LocalReaderBookAction"
+            <action id="LocalReaderBook" class="cn.cuijiangfeng.readerbook.LocalReaderBookAction"
                     text="本地阅读"
                     description="本地阅读">
             </action>
