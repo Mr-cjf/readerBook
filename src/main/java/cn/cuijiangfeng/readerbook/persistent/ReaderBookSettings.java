@@ -1,4 +1,4 @@
-package cn.cuijiangfeng.readerbook.persistentState;
+package cn.cuijiangfeng.readerbook.persistent;
 
 import cn.cuijiangfeng.readerbook.model.ReaderBookBo;
 import com.intellij.openapi.components.PersistentStateComponent;

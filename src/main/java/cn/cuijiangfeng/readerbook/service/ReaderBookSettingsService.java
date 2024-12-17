@@ -1,6 +1,6 @@
 package cn.cuijiangfeng.readerbook.service;
 
-import cn.cuijiangfeng.readerbook.persistentState.ReaderBookSettings;
+import cn.cuijiangfeng.readerbook.persistent.ReaderBookSettings;
 import cn.cuijiangfeng.readerbook.tool.Nones;
 import cn.cuijiangfeng.readerbook.ui.settings.ReaderBookConfigurable;
 import com.intellij.openapi.application.ApplicationManager;
@@ -12,15 +12,23 @@ import org.jetbrains.annotations.NotNull;
 
 @Service
 public final class ReaderBookSettingsService {
+    /**
+     * 获取小说读取目录
+     * <p>
+     * 该方法使用ApplicationManager的实例来获取ReaderBookSettings的实例 如果settings为null或者settings.getReaderBookBo()为null，则返回空字符串
+     * <p>
+     * 如果bookReadDir不为空，则返回bookReadDir 如果bookReadDir为空，则返回空字符串
+     *
+     * @return 小说读取目录
+     */
     public String getBookReadDir() {
+        // 获取ReaderBookSettings实例
         ReaderBookSettings settings = ApplicationManager.getApplication().getService(ReaderBookSettings.class);
-        if (Nones.isNull(settings)) {
-            return "";
-        }
-        if (Nones.isNull(settings.getReaderBookBo())) {
-            return "";
-        }
+        // 检查settings和settings.getReaderBookBo()是否为null
+        if (Nones.isNull(settings) || Nones.isNull(settings.getReaderBookBo())) return "";
+        // 获取小说读取目录
         var bookReadDir = settings.getReaderBookBo().getBookReadDir();
+        // 根据bookReadDir是否为空，返回相应的结果
         return Nones.nonBlank(bookReadDir) ? bookReadDir : "";
     }
     

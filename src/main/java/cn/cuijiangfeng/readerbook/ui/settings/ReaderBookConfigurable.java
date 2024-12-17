@@ -1,6 +1,6 @@
 package cn.cuijiangfeng.readerbook.ui.settings;
 
-import cn.cuijiangfeng.readerbook.persistentState.ReaderBookSettings;
+import cn.cuijiangfeng.readerbook.persistent.ReaderBookSettings;
 import cn.cuijiangfeng.readerbook.service.ReaderBookSettingsService;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooser;
